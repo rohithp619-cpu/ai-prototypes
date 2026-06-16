@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlexHaus — The Comeback | Campaign Delivery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --carbon:#0E1116;--chalk:#F5F5F2;--volt:#C6F24E;--ember:#FF5A3C;
+  --volt-dim:rgba(198,242,78,0.12);--ember-dim:rgba(255,90,60,0.2);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  background:var(--carbon);color:var(--chalk);line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.02em}
+h1{font-size:clamp(2rem,6vw,4rem);line-height:1;margin-bottom:0.5rem}
+h2{font-size:clamp(1.4rem,4vw,2.2rem);margin:3rem 0 1rem;color:var(--volt)}
+h3{font-size:clamp(1.1rem,2.5vw,1.4rem);margin:1.5rem 0 0.5rem;color:var(--chalk)}
+.container{max-width:960px;margin:0 auto;padding:2rem 1.5rem}
+
+/* Header */
+header{
+  text-align:center;padding:4rem 1.5rem 2rem;
+  background:radial-gradient(ellipse at 50% 0%, var(--volt-dim) 0%, transparent 60%);
+}
+header .meta{font-size:0.9rem;opacity:0.6;margin-top:0.5rem}
+header .tagline{font-size:1.1rem;opacity:0.8;margin-bottom:0.25rem}
+
+/* Cards */
+.card-grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin:1.5rem 0}
+.card{
+  background:rgba(245,245,242,0.05);border:1px solid rgba(245,245,242,0.1);
+  border-radius:12px;padding:1.5rem;transition:border-color .2s;
+}
+.card:hover{border-color:var(--volt)}
+.card .label{font-size:0.75rem;text-transform:uppercase;letter-spacing:.08em;opacity:0.5;margin-bottom:0.25rem}
+.card .title{font-weight:700;font-size:1.1rem;margin-bottom:0.5rem}
+.card .desc{font-size:0.9rem;opacity:0.75;line-height:1.5}
+.card .status{display:inline-block;font-size:0.75rem;padding:0.2rem 0.6rem;border-radius:4px;margin-top:0.75rem}
+.status-pass{background:var(--volt);color:var(--carbon);font-weight:700}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.95rem}
+th,td{padding:0.6rem 0.8rem;text-align:left;border-bottom:1px solid rgba(245,245,242,0.1)}
+th{font-weight:700;color:var(--volt);font-size:0.85rem;text-transform:uppercase;letter-spacing:.05em}
+td{opacity:0.85}
+
+/* Stats */
+.stat-row{display:flex;flex-wrap:wrap;gap:1.5rem;margin:1.5rem 0}
+.stat-box{
+  background:rgba(198,242,78,0.08);border:1px solid rgba(198,242,78,0.2);
+  border-radius:12px;padding:1.25rem;flex:1;min-width:160px;text-align:center;
+}
+.stat-box .number{font-family:'Anton',sans-serif;font-size:2rem;color:var(--volt)}
+.stat-box .label-stat{font-size:0.85rem;opacity:0.7;margin-top:0.25rem}
+
+/* Sections */
+.section-block{
+  border-left:3px solid var(--volt);padding-left:1.25rem;margin:1.5rem 0;
+}
+.section-block p{margin-bottom:0.75rem}
+.insight{background:rgba(255,90,60,0.06);border-left:3px solid var(--ember);padding:1rem;border-radius:0 8px 8px 0;margin:1rem 0}
+
+/* Links */
+a{color:var(--volt);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Catch highlight */
+.catch{
+  background:rgba(255,90,60,0.1);border:2px solid var(--ember);border-radius:12px;
+  padding:1.5rem;margin:1.5rem 0;
+}
+.catch h3{color:var(--ember);margin-top:0}
+
+/* Code */
+code{background:rgba(245,245,242,0.1);padding:0.15rem 0.4rem;border-radius:3px;font-size:0.9em}
+
+/* Button */
+.btn{
+  display:inline-block;padding:0.8rem 2rem;background:var(--volt);color:var(--carbon);
+  font-weight:700;text-decoration:none;border-radius:6px;margin-top:1rem;
+  transition:transform .15s;
+}
+.btn:hover{transform:scale(1.03);text-decoration:none}
+
+footer{text-align:center;padding:3rem 1.5rem;opacity:0.4;font-size:0.85rem}
+
+blockquote{
+  border-left:3px solid var(--volt);padding:0.75rem 1rem;margin:1rem 0;
+  background:rgba(245,245,242,0.03);border-radius:0 8px 8px 0;
+}
+blockquote p{margin-bottom:0.25rem}
+blockquote cite{font-size:0.85rem;opacity:0.6}
+
+@media(max-width:600px){
+  .stat-row{flex-direction:column}
+  .card-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <p class="tagline">FlexHaus Gym • Dervla Quinn • Owner-Operated</p>
+  <h1>THE COMEBACK</h1>
+  <p style="font-size:1.3rem;opacity:0.8">Member-Retention Campaign Delivery</p>
+  <p class="meta">Campaign: June 2026 • Budget: €2,000 • At-risk segment: 185 members • €100,620/yr at stake</p>
+</header>
+
+<div class="container">
+
+  <!-- EXECUTIVE SUMMARY -->
+  <h2>Campaign in one page</h2>
+  <p style="margin-bottom:1rem">
+    FlexHaus is bleeding members it already paid to acquire. 42% never book a second class.
+    9% monthly churn means replacing half the membership every year just to stand still.
+    The <strong>Comeback campaign</strong> targets the <strong>185 disengaged-but-still-paying members</strong>
+    (29% of the active base) before they cancel — with a three.js spectacular booking page,
+    a warm win-back sequence, and one metric that matters.
+  </p>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="number">185</div>
+      <div class="label-stat">At-risk members (active)</div>
+    </div>
+    <div class="stat-box">
+      <div class="number">€100,620</div>
+      <div class="label-stat">Revenue at stake / year</div>
+    </div>
+    <div class="stat-box">
+      <div class="number">2.0x</div>
+      <div class="label-stat">Second-class cliff (churn lift)</div>
+    </div>
+    <div class="stat-box">
+      <div class="number">42%</div>
+      <div class="label-stat">One-and-done members</div>
+    </div>
+  </div>
+
+  <!-- DELIVERABLES -->
+  <h2>Deliverables</h2>
+  <div class="card-grid">
+    <div class="card">
+      <div class="label">🟡 Tara</div>
+      <div class="title">diagnosis.md</div>
+      <div class="desc">Member panel rebuilt, at-risk segment sized, second-class cliff proven, one metric named.</div>
+      <div class="status status-pass">PASS</div>
+    </div>
+    <div class="card">
+      <div class="label">🔴 Mateo</div>
+      <div class="title">design-spec.md</div>
+      <div class="desc">4-scene scroll-driven WebGL spec: resting pulse → fly-through → proof → booking card. A11y plan, states, fallbacks.</div>
+      <div class="status status-pass">PASS</div>
+    </div>
+    <div class="card">
+      <div class="label">🟢 Róisín</div>
+      <div class="title">marketing.md</div>
+      <div class="desc">3-touch SMS + email + SMS win-back sequence + 2 Instagram posts. GDPR-clean, warm, stat-backed.</div>
+      <div class="status status-pass">PASS</div>
+    </div>
+    <div class="card">
+      <div class="label">🔵 Kojo</div>
+      <div class="title">site/index.html</div>
+      <div class="desc">Deployable three.js comeback-booking page. Reduced-motion + no-WebGL fallbacks. Formspree + mailto form.</div>
+      <div class="status status-pass">PASS</div>
+    </div>
+    <div class="card">
+      <div class="label">🟣 Cold Verify</div>
+      <div class="title">cold-verify.md</div>
+      <div class="desc">Blind verification against 6 criteria. 5 PASS, 1 CONDITIONAL PASS. One catch found and documented.</div>
+      <div class="status status-pass">PASS</div>
+    </div>
+  </div>
+
+  <!-- THE DATA -->
+  <h2>The raw data</h2>
+  <p>Full class-bookings export: <strong>45,349 rows</strong>, <strong>1,556 distinct members</strong>, 18 months (2024-12 to 2026-05), 23 fields.</p>
+
+  <h3>Member status breakdown</h3>
+  <table>
+    <tr><th>Status</th><th>Count</th><th>Share</th></tr>
+    <tr><td>Active</td><td>637</td><td>40.9%</td></tr>
+    <tr><td>Cancelled</td><td>886</td><td>57.0%</td></tr>
+    <tr><td>Frozen</td><td>33</td><td>2.1%</td></tr>
+  </table>
+
+  <h3>The second-class cliff</h3>
+  <table>
+    <tr><th>Lifetime bookings</th><th>Members</th><th>Share</th><th>Cancelled</th><th>Churn rate</th></tr>
+    <tr><td>1 (one-and-done)</td><td>655</td><td>42.1%</td><td>493</td><td><strong>75.3%</strong></td></tr>
+    <tr><td>2-4 (sporadic)</td><td>138</td><td>8.9%</td><td>102</td><td>73.9%</td></tr>
+    <tr><td>5-20 (regular)</td><td>315</td><td>20.2%</td><td>183</td><td>58.1%</td></tr>
+    <tr><td>20+ (devotee)</td><td>448</td><td>28.8%</td><td>108</td><td><strong>24.1%</strong></td></tr>
+  </table>
+  <p style="font-size:0.9rem;opacity:0.7">Cliff: 75.3% ÷ 38.1% (5+ avg) = <strong>2.0x churn lift</strong> for one-class members.</p>
+
+  <!-- AT-RISK SEGMENT -->
+  <h2>At-risk segment detail</h2>
+  <div class="section-block">
+    <p><strong>Definition:</strong> Active (paying) members who meet any of: (1) exactly 1 lifetime booking, (2) no booking in 30+ days, (3) no second class, joined &gt;30 days ago.</p>
+  </div>
+  <table>
+    <tr><th>Metric</th><th>Value</th></tr>
+    <tr><td>At-risk members</td><td>185</td></tr>
+    <tr><td>% of active base</td><td>29.0%</td></tr>
+    <tr><td>Monthly revenue at stake</td><td>€8,385</td></tr>
+    <tr><td>Annual revenue at stake</td><td>€100,620</td></tr>
+    <tr><td>Avg fee (at-risk)</td><td>€45.32</td></tr>
+    <tr><td>No-show rate (at-risk)</td><td>13.4% (vs 6.0% for engaged)</td></tr>
+  </table>
+
+  <h3>Top comeback classes (at-risk first preference)</h3>
+  <table>
+    <tr><th>Class</th><th>Members</th><th>Share</th></tr>
+    <tr><td>HIIT</td><td>43</td><td>23.2%</td></tr>
+    <tr><td>Yoga</td><td>35</td><td>18.9%</td></tr>
+    <tr><td>Spin</td><td>32</td><td>17.3%</td></tr>
+    <tr><td>Strength</td><td>29</td><td>15.7%</td></tr>
+    <tr><td>Pilates</td><td>20</td><td>10.8%</td></tr>
+  </table>
+
+  <h3>Best instructor for reactivation</h3>
+  <table>
+    <tr><th>Instructor</th><th>Second-class conversion</th></tr>
+    <tr><td>Marta</td><td>64.4% ← highest</td></tr>
+    <tr><td>Conor</td><td>58.8%</td></tr>
+    <tr><td>Dev</td><td>58.4%</td></tr>
+    <tr><td>Niall</td><td>58.2%</td></tr>
+    <tr><td>Tom</td><td>55.9%</td></tr>
+    <tr><td>Aisling</td><td>55.6%</td></tr>
+    <tr><td>Saoirse</td><td>54.3%</td></tr>
+  </table>
+
+  <!-- THE PAGE -->
+  <h2>The three.js comeback page</h2>
+  <div class="section-block">
+    <p><strong>Location:</strong> <code>site/index.html</code> — single-file static page, no build step.</p>
+    <p><strong>Tech:</strong> three.js r169 via ES module importmap, UnrealBloomPass for Volt glow, GPU particles for chalk-dust, scroll-driven camera + pulse animation.</p>
+    <p><strong>4 scenes:</strong> resting pulse/hero → momentum fly-through → proof cards → Volt-green booking card.</p>
+    <p><strong>Form:</strong> Name, email, phone (optional), class + time selectors, opt-in reminder checkbox. Submits to Formspree with mailto fallback.</p>
+    <p><strong>Fallbacks:</strong> <code>prefers-reduced-motion</code> disables 3D scene, shows styled static layout. No-WebGL detection serves static hero + full form. <code>&lt;noscript&gt;</code> fallback with email contact.</p>
+    <p><strong>Accessibility:</strong> <code>aria-hidden</code> canvas with real DOM content, keyboard-navigable, visible focus rings, AA contrast on all combos.</p>
+  </div>
+
+  <!-- THE MESSAGES -->
+  <h2>Win-back sequence</h2>
+
+  <h3>Touch 1 — SMS (Day 1)</h3>
+  <blockquote>
+    <p>FlexHaus: Hey [Name], your spot's still here. We saw you haven't been in a while — so we saved you a spot in Tuesday HIIT with Marta. One tap to claim it: [link]</p>
+    <p style="font-size:0.85rem;opacity:0.6">Reply STOP to opt out of messages.</p>
+  </blockquote>
+
+  <h3>Touch 2 — Email (Day 3)</h3>
+  <blockquote>
+    <p><strong>Subject:</strong> Your spot's still here, [Name]</p>
+    <p>Hi [Name], it's been a few weeks. No judgement — life gets busy. Members who come back for a second class are 2x more likely to stay with FlexHaus long-term. So we saved you a spot in Tuesday HIIT with Marta at 18:00. Same studio, same energy, zero pressure. <strong>[Button: Book My Comeback Class]</strong></p>
+    <p style="font-size:0.85rem;opacity:0.6">[Unsubscribe link]</p>
+  </blockquote>
+
+  <h3>Touch 3 — SMS (Day 7)</h3>
+  <blockquote>
+    <p>FlexHaus: [Name], Marta's Tuesday HIIT is still open for you. One tap and you're in. We'll save the spot. [link]</p>
+    <p style="font-size:0.85rem;opacity:0.6">This is your last nudge — after this, the spot opens up. Reply STOP to opt out.</p>
+  </blockquote>
+
+  <!-- THE CATCH -->
+  <h2 style="color:var(--ember)">🐙 The Catch: Octopus caught lying</h2>
+  <div class="catch">
+    <h3>Bug: Missing <code>async</code> on <code>initScene()</code></h3>
+    <p><strong>Who:</strong> Blue (Kojo), the three.js engineer.</p>
+    <p><strong>What:</strong> <code>initScene()</code> was declared as a regular <code>function</code> but contained <code>await</code> expressions (<code>await import('three')</code>). In JavaScript, <code>await</code> is only valid inside <code>async function</code>. The page would throw a <code>SyntaxError</code> at runtime, breaking the entire three.js experience with a blank canvas.</p>
+    <p><strong>Fix:</strong> Changed <code>function initScene()</code> → <code>async function initScene()</code> (applied during cold verify).</p>
+    <p><strong>Why this matters:</strong> The no-WebGL fallback checks <code>navigator...</code> which returns <code>false</code> (WebGL is available) — so the fallback never fires. The page shows a blank canvas. The cold verifier caught what the dev missed.</p>
+  </div>
+
+  <!-- COLD VERIFY SCORES -->
+  <h2>Cold Verify results</h2>
+  <table>
+    <tr><th>Criterion</th><th>Result</th></tr>
+    <tr><td>1. Diagnosis is data-bound</td><td style="color:var(--volt)"><strong>PASS</strong></td></tr>
+    <tr><td>2. One metric, not five</td><td style="color:var(--volt)"><strong>PASS</strong></td></tr>
+    <tr><td>3. Page runs on a phone</td><td style="color:var(--volt)"><strong>CONDITIONAL PASS</strong></td></tr>
+    <tr><td>4. On-brand, on-voice</td><td style="color:var(--volt)"><strong>PASS</strong></td></tr>
+    <tr><td>5. GDPR-clean and kind</td><td style="color:var(--volt)"><strong>PASS</strong></td></tr>
+    <tr><td>6. No hallucinated facts</td><td style="color:var(--volt)"><strong>PASS</strong></td></tr>
+  </table>
+
+  <!-- BUDGET -->
+  <h2>Budget breakdown</h2>
+  <table>
+    <tr><th>Item</th><th>Cost</th></tr>
+    <tr><td>SMS (185 members × 2 messages × €0.04)</td><td>~€15</td></tr>
+    <tr><td>Formspree (free tier)</td><td>€0</td></tr>
+    <tr><td>GitHub Pages hosting</td><td>€0</td></tr>
+    <tr><td>Domain (if any)</td><td>~€12/yr</td></tr>
+    <tr><td>Total</td><td><strong>~€27</strong> of €2,000 budget</td></tr>
+  </table>
+
+  <!-- VOICE OF MEMBER -->
+  <h2>Voice of the member</h2>
+  <blockquote>
+    <p>"If someone had just texted me 'we saved you a spot Tuesday', I'd have gone."</p>
+    <cite>— F, 38, at-risk member (survey)</cite>
+  </blockquote>
+  <blockquote>
+    <p>"I still pay for it. I just... haven't been in like six weeks. I keep meaning to."</p>
+    <cite>— F, 29, Standard plan (survey)</cite>
+  </blockquote>
+  <blockquote>
+    <p>"The first class was hard and I felt out of place. I never went back."</p>
+    <cite>— M, 34, cancelled (survey)</cite>
+  </blockquote>
+
+  <p style="text-align:center;margin-top:3rem">
+    <a href="site/index.html" class="btn" target="_blank">View the Comeback Page</a>
+  </p>
+
+</div>
+
+<footer>
+  <p>FlexHaus Gym — Show up for yourself.</p>
+  <p>The Comeback Campaign • Built by the Octopus pipeline • Cold verify passed with one catch</p>
+</footer>
+
+</body>
+</html>
