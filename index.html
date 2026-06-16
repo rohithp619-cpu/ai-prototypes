@@ -3,332 +3,652 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FlexHaus — The Comeback | Campaign Delivery</title>
+<title>FlexHaus — The Comeback</title>
+<meta name="description" content="Your spot's still here. Book your comeback class at FlexHaus in one tap.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --carbon:#0E1116;--chalk:#F5F5F2;--volt:#C6F24E;--ember:#FF5A3C;
-  --volt-dim:rgba(198,242,78,0.12);--ember-dim:rgba(255,90,60,0.2);
-}
-*{box-sizing:border-box;margin:0;padding:0}
+/* ── Reset & base ─────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{
   font-family:'Inter',system-ui,-apple-system,sans-serif;
-  background:var(--carbon);color:var(--chalk);line-height:1.6;
+  background:#0E1116;color:#F5F5F2;
   -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
 }
-h1,h2,h3{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.02em}
-h1{font-size:clamp(2rem,6vw,4rem);line-height:1;margin-bottom:0.5rem}
-h2{font-size:clamp(1.4rem,4vw,2.2rem);margin:3rem 0 1rem;color:var(--volt)}
-h3{font-size:clamp(1.1rem,2.5vw,1.4rem);margin:1.5rem 0 0.5rem;color:var(--chalk)}
-.container{max-width:960px;margin:0 auto;padding:2rem 1.5rem}
 
-/* Header */
-header{
-  text-align:center;padding:4rem 1.5rem 2rem;
-  background:radial-gradient(ellipse at 50% 0%, var(--volt-dim) 0%, transparent 60%);
+/* ── Colors ──────────────────────────────────────────────── */
+:root{
+  --carbon:#0E1116;--chalk:#F5F5F2;--volt:#C6F24E;--ember:#FF5A3C;
+  --volt-dim:rgba(198,242,78,0.15);--ember-dim:rgba(255,90,60,0.3);
 }
-header .meta{font-size:0.9rem;opacity:0.6;margin-top:0.5rem}
-header .tagline{font-size:1.1rem;opacity:0.8;margin-bottom:0.25rem}
 
-/* Cards */
-.card-grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin:1.5rem 0}
-.card{
-  background:rgba(245,245,242,0.05);border:1px solid rgba(245,245,242,0.1);
-  border-radius:12px;padding:1.5rem;transition:border-color .2s;
+/* ── Typography ───────────────────────────────────────────── */
+h1,h2{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.02em}
+h1{font-size:clamp(2.2rem,8vw,5rem);line-height:1}
+h2{font-size:clamp(1.6rem,5vw,3rem);line-height:1.1}
+h3{font-family:'Inter',sans-serif;font-weight:700;font-size:clamp(1.1rem,2.5vw,1.5rem)}
+
+/* ── Canvas container ─────────────────────────────────────── */
+#scene-container{
+  position:fixed;top:0;left:0;width:100%;height:100vh;
+  z-index:0;pointer-events:none;
 }
-.card:hover{border-color:var(--volt)}
-.card .label{font-size:0.75rem;text-transform:uppercase;letter-spacing:.08em;opacity:0.5;margin-bottom:0.25rem}
-.card .title{font-weight:700;font-size:1.1rem;margin-bottom:0.5rem}
-.card .desc{font-size:0.9rem;opacity:0.75;line-height:1.5}
-.card .status{display:inline-block;font-size:0.75rem;padding:0.2rem 0.6rem;border-radius:4px;margin-top:0.75rem}
-.status-pass{background:var(--volt);color:var(--carbon);font-weight:700}
+#scene-container canvas{display:block;width:100%;height:100%}
 
-/* Tables */
-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.95rem}
-th,td{padding:0.6rem 0.8rem;text-align:left;border-bottom:1px solid rgba(245,245,242,0.1)}
-th{font-weight:700;color:var(--volt);font-size:0.85rem;text-transform:uppercase;letter-spacing:.05em}
-td{opacity:0.85}
-
-/* Stats */
-.stat-row{display:flex;flex-wrap:wrap;gap:1.5rem;margin:1.5rem 0}
-.stat-box{
-  background:rgba(198,242,78,0.08);border:1px solid rgba(198,242,78,0.2);
-  border-radius:12px;padding:1.25rem;flex:1;min-width:160px;text-align:center;
+/* ── Content wrapper (scrollable) ──────────────────────────── */
+.content-wrapper{
+  position:relative;z-index:1;
+  pointer-events:none;
 }
-.stat-box .number{font-family:'Anton',sans-serif;font-size:2rem;color:var(--volt)}
-.stat-box .label-stat{font-size:0.85rem;opacity:0.7;margin-top:0.25rem}
+.content-wrapper > *{pointer-events:auto}
 
-/* Sections */
-.section-block{
-  border-left:3px solid var(--volt);padding-left:1.25rem;margin:1.5rem 0;
+/* ── Sections ──────────────────────────────────────────────── */
+section{
+  min-height:100vh;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
+  padding:2rem 1.5rem;
+  text-align:center;
 }
-.section-block p{margin-bottom:0.75rem}
-.insight{background:rgba(255,90,60,0.06);border-left:3px solid var(--ember);padding:1rem;border-radius:0 8px 8px 0;margin:1rem 0}
+.section-inner{max-width:680px;width:100%}
 
-/* Links */
-a{color:var(--volt);text-decoration:none}
-a:hover{text-decoration:underline}
-
-/* Catch highlight */
-.catch{
-  background:rgba(255,90,60,0.1);border:2px solid var(--ember);border-radius:12px;
-  padding:1.5rem;margin:1.5rem 0;
+/* ── Hero ──────────────────────────────────────────────────── */
+#hero .tagline{
+  font-size:clamp(1rem,2.5vw,1.25rem);
+  margin-bottom:0.5rem;opacity:0.85;
 }
-.catch h3{color:var(--ember);margin-top:0}
+#hero h1{margin-bottom:0.75rem}
+#hero .sub{font-size:clamp(1.1rem,2.5vw,1.3rem);margin-bottom:2rem;opacity:0.9}
+.scroll-hint{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);font-size:0.85rem;opacity:0.5;animation:hint-bounce 2s infinite}
+@keyframes hint-bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
 
-/* Code */
-code{background:rgba(245,245,242,0.1);padding:0.15rem 0.4rem;border-radius:3px;font-size:0.9em}
-
-/* Button */
+/* ── Buttons ──────────────────────────────────────────────── */
 .btn{
-  display:inline-block;padding:0.8rem 2rem;background:var(--volt);color:var(--carbon);
-  font-weight:700;text-decoration:none;border-radius:6px;margin-top:1rem;
-  transition:transform .15s;
+  display:inline-block;padding:1rem 2.5rem;
+  font-family:'Inter',sans-serif;font-weight:700;font-size:1.1rem;
+  border:none;border-radius:4px;cursor:pointer;
+  text-decoration:none;
+  transition:transform .15s,box-shadow .15s,background .15s;
+  min-height:48px;line-height:1.2;
 }
-.btn:hover{transform:scale(1.03);text-decoration:none}
+.btn:focus-visible{outline:3px solid var(--volt);outline-offset:3px}
+.btn-primary{background:var(--volt);color:var(--carbon)}
+.btn-primary:hover,.btn-primary:focus-visible{background:#d4f56a;transform:scale(1.03);box-shadow:0 0 30px rgba(198,242,78,0.3)}
+.btn-submit{background:var(--ember);color:var(--chalk)}
+.btn-submit:hover,.btn-submit:focus-visible{background:#ff7555;transform:scale(1.03);box-shadow:0 0 30px rgba(255,90,60,0.3)}
+.btn-submit:disabled{opacity:0.5;cursor:not-allowed;transform:none}
 
-footer{text-align:center;padding:3rem 1.5rem;opacity:0.4;font-size:0.85rem}
-
-blockquote{
-  border-left:3px solid var(--volt);padding:0.75rem 1rem;margin:1rem 0;
-  background:rgba(245,245,242,0.03);border-radius:0 8px 8px 0;
+/* ── Momentum section ─────────────────────────────────────── */
+.momentum-lines p{
+  font-size:clamp(1.2rem,3.5vw,1.8rem);font-weight:600;
+  line-height:1.6;margin-bottom:2rem;opacity:0;
+  transform:translateY(30px);
+  transition:opacity .8s,transform .8s;
 }
-blockquote p{margin-bottom:0.25rem}
-blockquote cite{font-size:0.85rem;opacity:0.6}
+.momentum-lines p.visible{opacity:1;transform:translateY(0)}
 
-@media(max-width:600px){
-  .stat-row{flex-direction:column}
-  .card-grid{grid-template-columns:1fr}
+/* ── Proof cards ────────────────────────────────────────────── */
+.proof-grid{display:grid;gap:1.5rem;grid-template-columns:1fr;margin-top:1rem}
+@media(min-width:640px){.proof-grid{grid-template-columns:repeat(3,1fr)}}
+.proof-card{
+  background:rgba(245,245,242,0.06);border:1px solid rgba(245,245,242,0.1);
+  border-radius:12px;padding:1.75rem 1.25rem;text-align:left;
+  opacity:0;transform:translateY(40px);
+  transition:opacity .8s .2s,transform .8s .2s;
 }
+.proof-card.visible{opacity:1;transform:translateY(0)}
+.proof-card .icon{font-size:2rem;margin-bottom:0.5rem}
+.proof-card h3{margin-bottom:0.5rem;color:var(--volt)}
+.proof-card p{font-size:0.95rem;line-height:1.5;opacity:0.85}
+.proof-card .stat{font-family:'Anton',sans-serif;font-size:2rem;color:var(--volt);margin-bottom:0.25rem}
+
+/* ── Comeback Card / Form ───────────────────────────────────── */
+#comeback{
+  min-height:100vh;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
+  position:relative;
+}
+#comeback::before{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:radial-gradient(ellipse at center,var(--volt-dim) 0%,transparent 70%);
+  pointer-events:none;
+}
+.booking-card{
+  background:var(--chalk);color:var(--carbon);
+  border-radius:16px;padding:2.5rem 2rem;max-width:460px;width:100%;
+  text-align:left;box-shadow:0 20px 60px rgba(0,0,0,0.4);
+  position:relative;z-index:1;
+}
+.booking-card h2{text-align:center;margin-bottom:0.5rem;color:var(--carbon)}
+.booking-card .prefill-note{
+  text-align:center;font-size:0.95rem;margin-bottom:1.5rem;opacity:0.7;
+}
+.form-group{margin-bottom:1.25rem}
+.form-group label{display:block;font-weight:600;font-size:0.9rem;margin-bottom:0.35rem}
+.form-group input,.form-group select{
+  width:100%;padding:0.7rem 0.8rem;
+  font-family:'Inter',sans-serif;font-size:1rem;
+  border:2px solid #ddd;border-radius:6px;
+  background:var(--chalk);color:var(--carbon);
+  transition:border-color .15s;
+  min-height:44px;
+}
+.form-group input:focus,.form-group select:focus{
+  outline:none;border-color:var(--volt);box-shadow:0 0 0 3px var(--volt-dim);
+}
+.form-group input.error,.form-group select.error{border-color:var(--ember)}
+.form-group .error-msg{color:var(--ember);font-size:0.8rem;margin-top:0.25rem;display:none}
+.form-group .error-msg.show{display:block}
+
+.consent-line{font-size:0.85rem;opacity:0.7;margin:1rem 0;line-height:1.5}
+.consent-line a{color:var(--carbon)}
+
+/* ── Success state ──────────────────────────────────────────── */
+.booking-success{display:none;text-align:center;padding:2rem 1rem}
+.booking-success.show{display:block}
+.booking-success .check{font-size:3rem;margin-bottom:0.5rem}
+.booking-success h2{color:var(--volt);margin-bottom:0.75rem}
+.booking-success p{font-size:1.05rem;opacity:0.8;margin-bottom:1.5rem;line-height:1.6}
+.booking-success .btn{background:transparent;border:2px solid var(--volt);color:var(--volt)}
+
+/* ── Footer ──────────────────────────────────────────────────── */
+footer{text-align:center;padding:3rem 1.5rem;opacity:0.5;font-size:0.85rem}
+
+/* ── Reduced motion ──────────────────────────────────────────── */
+@media(prefers-reduced-motion:reduce){
+  .momentum-lines p,.proof-card{opacity:1;transform:none}
+  .scroll-hint{display:none}
+  .btn,.btn:hover{transform:none}
+}
+@media(prefers-reduced-motion:reduce) and (max-width:640px){
+  #scene-container{display:none}
+}
+
+/* ── No-JS fallback ──────────────────────────────────────────── */
+.no-js-content{display:none}
 </style>
 </head>
 <body>
 
-<header>
-  <p class="tagline">FlexHaus Gym • Dervla Quinn • Owner-Operated</p>
-  <h1>THE COMEBACK</h1>
-  <p style="font-size:1.3rem;opacity:0.8">Member-Retention Campaign Delivery</p>
-  <p class="meta">Campaign: June 2026 • Budget: €2,000 • At-risk segment: 185 members • €100,620/yr at stake</p>
-</header>
+<!-- ── THREE.JS SCENE ── -->
+<div id="scene-container" aria-hidden="true"></div>
 
-<div class="container">
+<!-- ── MAIN CONTENT ── -->
+<div class="content-wrapper">
 
-  <!-- EXECUTIVE SUMMARY -->
-  <h2>Campaign in one page</h2>
-  <p style="margin-bottom:1rem">
-    FlexHaus is bleeding members it already paid to acquire. 42% never book a second class.
-    9% monthly churn means replacing half the membership every year just to stand still.
-    The <strong>Comeback campaign</strong> targets the <strong>185 disengaged-but-still-paying members</strong>
-    (29% of the active base) before they cancel — with a three.js spectacular booking page,
-    a warm win-back sequence, and one metric that matters.
-  </p>
-
-  <div class="stat-row">
-    <div class="stat-box">
-      <div class="number">185</div>
-      <div class="label-stat">At-risk members (active)</div>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="section-inner">
+      <p class="tagline">FlexHaus Gym</p>
+      <h1>Your spot's still here.</h1>
+      <p class="sub">Come back to FlexHaus. We saved you a spot.</p>
+      <a href="#comeback" class="btn btn-primary">Book your comeback class</a>
     </div>
-    <div class="stat-box">
-      <div class="number">€100,620</div>
-      <div class="label-stat">Revenue at stake / year</div>
+    <div class="scroll-hint" aria-hidden="true">Scroll to begin ↓</div>
+  </section>
+
+  <!-- MOMENTUM -->
+  <section id="momentum" style="padding-top:20vh">
+    <div class="section-inner momentum-lines">
+      <p class="momentum-line">You walked through that door once. The door's still open.</p>
+      <p class="momentum-line">One class is all it takes to remember why you joined.</p>
+      <p class="momentum-line">Your Tuesday HIIT with Marta is waiting.</p>
     </div>
-    <div class="stat-box">
-      <div class="number">2.0x</div>
-      <div class="label-stat">Second-class cliff (churn lift)</div>
+  </section>
+
+  <!-- PROOF -->
+  <section id="proof">
+    <div class="section-inner">
+      <h2 style="margin-bottom:1rem;color:var(--volt)">Why now?</h2>
+      <div class="proof-grid">
+        <div class="proof-card">
+          <div class="icon">📈</div>
+          <div class="stat">2x</div>
+          <h3>One class resets the habit</h3>
+          <p>Members who come back for a second class are <strong>2x more likely</strong> to stay long-term.</p>
+        </div>
+        <div class="proof-card">
+          <div class="icon">⭐</div>
+          <h3>Your favourite is on Tuesday</h3>
+          <p>HIIT with Marta — our highest conversion class. She turns first-timers into regulars.</p>
+        </div>
+        <div class="proof-card">
+          <div class="icon">🕊️</div>
+          <h3>We held the spot</h3>
+          <p>Off-peak slots are open. No wait, no crowd, no pressure — just a spot we saved for you.</p>
+        </div>
+      </div>
+      <p style="margin-top:1rem;font-size:0.85rem;opacity:0.5">
+        *Source: FlexHaus bookings data. 75.3% of one-class members cancel vs 38.1% of 5+ class members.
+      </p>
     </div>
-    <div class="stat-box">
-      <div class="number">42%</div>
-      <div class="label-stat">One-and-done members</div>
+  </section>
+
+  <!-- COMEBACK CARD -->
+  <section id="comeback">
+    <div class="booking-card" id="booking-card">
+      <div id="booking-form-view">
+        <h2>Book your comeback</h2>
+        <p class="prefill-note">We pre-selected your best class, but you can change it.</p>
+        <form id="comeback-form" novalidate>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required autocomplete="name" placeholder="Your name">
+            <div class="error-msg" id="name-error">Please enter your name</div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@example.com">
+            <div class="error-msg" id="email-error">Please enter a valid email</div>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone <span style="font-weight:400;opacity:0.6">(optional — for SMS reminder)</span></label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+353 8X XXX XXXX">
+          </div>
+          <div class="form-group">
+            <label for="class-type">Class</label>
+            <select id="class-type" name="class_type">
+              <option value="HIIT">HIIT (recommended)</option>
+              <option value="Yoga">Yoga</option>
+              <option value="Spin">Spin</option>
+              <option value="Strength">Strength</option>
+              <option value="Pilates">Pilates</option>
+              <option value="Mobility">Mobility</option>
+              <option value="Boxing">Boxing</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="time-slot">Preferred time</label>
+            <select id="time-slot" name="time_slot">
+              <option value="tue-1800">Tuesday 18:00 — HIIT with Marta (recommended)</option>
+              <option value="morning">Off-peak morning (before 12:00)</option>
+              <option value="afternoon">Off-peak afternoon (12:00–17:00)</option>
+              <option value="evening">Peak evening (17:00–20:00)</option>
+            </select>
+          </div>
+          <div class="consent-line">
+            <label style="display:flex;align-items:flex-start;gap:0.5rem;cursor:pointer">
+              <input type="checkbox" name="reminder" value="yes" style="margin-top:3px;width:auto;min-height:auto">
+              <span>Send me a reminder before class — I can opt out anytime.</span>
+            </label>
+          </div>
+          <button type="submit" class="btn btn-submit" style="width:100%">Book My Comeback Class</button>
+          <p class="consent-line" style="text-align:center;margin-top:0.75rem">
+            By booking you agree to our <a href="#">terms</a>. Your data stays with FlexHaus.
+          </p>
+        </form>
+      </div>
+      <div class="booking-success" id="booking-success">
+        <div class="check">✓</div>
+        <h2>You're in!</h2>
+        <p>See you Tuesday at 18:00 for HIIT with Marta.<br>We'll save the spot.</p>
+        <a href="#" class="btn" onclick="resetForm();return false">Book another</a>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <!-- DELIVERABLES -->
-  <h2>Deliverables</h2>
-  <div class="card-grid">
-    <div class="card">
-      <div class="label">🟡 Tara</div>
-      <div class="title">diagnosis.md</div>
-      <div class="desc">Member panel rebuilt, at-risk segment sized, second-class cliff proven, one metric named.</div>
-      <div class="status status-pass">PASS</div>
-    </div>
-    <div class="card">
-      <div class="label">🔴 Mateo</div>
-      <div class="title">design-spec.md</div>
-      <div class="desc">4-scene scroll-driven WebGL spec: resting pulse → fly-through → proof → booking card. A11y plan, states, fallbacks.</div>
-      <div class="status status-pass">PASS</div>
-    </div>
-    <div class="card">
-      <div class="label">🟢 Róisín</div>
-      <div class="title">marketing.md</div>
-      <div class="desc">3-touch SMS + email + SMS win-back sequence + 2 Instagram posts. GDPR-clean, warm, stat-backed.</div>
-      <div class="status status-pass">PASS</div>
-    </div>
-    <div class="card">
-      <div class="label">🔵 Kojo</div>
-      <div class="title">site/index.html</div>
-      <div class="desc">Deployable three.js comeback-booking page. Reduced-motion + no-WebGL fallbacks. Formspree + mailto form.</div>
-      <div class="status status-pass">PASS</div>
-    </div>
-    <div class="card">
-      <div class="label">🟣 Cold Verify</div>
-      <div class="title">cold-verify.md</div>
-      <div class="desc">Blind verification against 6 criteria. 5 PASS, 1 CONDITIONAL PASS. One catch found and documented.</div>
-      <div class="status status-pass">PASS</div>
-    </div>
-  </div>
-
-  <!-- THE DATA -->
-  <h2>The raw data</h2>
-  <p>Full class-bookings export: <strong>45,349 rows</strong>, <strong>1,556 distinct members</strong>, 18 months (2024-12 to 2026-05), 23 fields.</p>
-
-  <h3>Member status breakdown</h3>
-  <table>
-    <tr><th>Status</th><th>Count</th><th>Share</th></tr>
-    <tr><td>Active</td><td>637</td><td>40.9%</td></tr>
-    <tr><td>Cancelled</td><td>886</td><td>57.0%</td></tr>
-    <tr><td>Frozen</td><td>33</td><td>2.1%</td></tr>
-  </table>
-
-  <h3>The second-class cliff</h3>
-  <table>
-    <tr><th>Lifetime bookings</th><th>Members</th><th>Share</th><th>Cancelled</th><th>Churn rate</th></tr>
-    <tr><td>1 (one-and-done)</td><td>655</td><td>42.1%</td><td>493</td><td><strong>75.3%</strong></td></tr>
-    <tr><td>2-4 (sporadic)</td><td>138</td><td>8.9%</td><td>102</td><td>73.9%</td></tr>
-    <tr><td>5-20 (regular)</td><td>315</td><td>20.2%</td><td>183</td><td>58.1%</td></tr>
-    <tr><td>20+ (devotee)</td><td>448</td><td>28.8%</td><td>108</td><td><strong>24.1%</strong></td></tr>
-  </table>
-  <p style="font-size:0.9rem;opacity:0.7">Cliff: 75.3% ÷ 38.1% (5+ avg) = <strong>2.0x churn lift</strong> for one-class members.</p>
-
-  <!-- AT-RISK SEGMENT -->
-  <h2>At-risk segment detail</h2>
-  <div class="section-block">
-    <p><strong>Definition:</strong> Active (paying) members who meet any of: (1) exactly 1 lifetime booking, (2) no booking in 30+ days, (3) no second class, joined &gt;30 days ago.</p>
-  </div>
-  <table>
-    <tr><th>Metric</th><th>Value</th></tr>
-    <tr><td>At-risk members</td><td>185</td></tr>
-    <tr><td>% of active base</td><td>29.0%</td></tr>
-    <tr><td>Monthly revenue at stake</td><td>€8,385</td></tr>
-    <tr><td>Annual revenue at stake</td><td>€100,620</td></tr>
-    <tr><td>Avg fee (at-risk)</td><td>€45.32</td></tr>
-    <tr><td>No-show rate (at-risk)</td><td>13.4% (vs 6.0% for engaged)</td></tr>
-  </table>
-
-  <h3>Top comeback classes (at-risk first preference)</h3>
-  <table>
-    <tr><th>Class</th><th>Members</th><th>Share</th></tr>
-    <tr><td>HIIT</td><td>43</td><td>23.2%</td></tr>
-    <tr><td>Yoga</td><td>35</td><td>18.9%</td></tr>
-    <tr><td>Spin</td><td>32</td><td>17.3%</td></tr>
-    <tr><td>Strength</td><td>29</td><td>15.7%</td></tr>
-    <tr><td>Pilates</td><td>20</td><td>10.8%</td></tr>
-  </table>
-
-  <h3>Best instructor for reactivation</h3>
-  <table>
-    <tr><th>Instructor</th><th>Second-class conversion</th></tr>
-    <tr><td>Marta</td><td>64.4% ← highest</td></tr>
-    <tr><td>Conor</td><td>58.8%</td></tr>
-    <tr><td>Dev</td><td>58.4%</td></tr>
-    <tr><td>Niall</td><td>58.2%</td></tr>
-    <tr><td>Tom</td><td>55.9%</td></tr>
-    <tr><td>Aisling</td><td>55.6%</td></tr>
-    <tr><td>Saoirse</td><td>54.3%</td></tr>
-  </table>
-
-  <!-- THE PAGE -->
-  <h2>The three.js comeback page</h2>
-  <div class="section-block">
-    <p><strong>Location:</strong> <code>site/index.html</code> — single-file static page, no build step.</p>
-    <p><strong>Tech:</strong> three.js r169 via ES module importmap, UnrealBloomPass for Volt glow, GPU particles for chalk-dust, scroll-driven camera + pulse animation.</p>
-    <p><strong>4 scenes:</strong> resting pulse/hero → momentum fly-through → proof cards → Volt-green booking card.</p>
-    <p><strong>Form:</strong> Name, email, phone (optional), class + time selectors, opt-in reminder checkbox. Submits to Formspree with mailto fallback.</p>
-    <p><strong>Fallbacks:</strong> <code>prefers-reduced-motion</code> disables 3D scene, shows styled static layout. No-WebGL detection serves static hero + full form. <code>&lt;noscript&gt;</code> fallback with email contact.</p>
-    <p><strong>Accessibility:</strong> <code>aria-hidden</code> canvas with real DOM content, keyboard-navigable, visible focus rings, AA contrast on all combos.</p>
-  </div>
-
-  <!-- THE MESSAGES -->
-  <h2>Win-back sequence</h2>
-
-  <h3>Touch 1 — SMS (Day 1)</h3>
-  <blockquote>
-    <p>FlexHaus: Hey [Name], your spot's still here. We saw you haven't been in a while — so we saved you a spot in Tuesday HIIT with Marta. One tap to claim it: [link]</p>
-    <p style="font-size:0.85rem;opacity:0.6">Reply STOP to opt out of messages.</p>
-  </blockquote>
-
-  <h3>Touch 2 — Email (Day 3)</h3>
-  <blockquote>
-    <p><strong>Subject:</strong> Your spot's still here, [Name]</p>
-    <p>Hi [Name], it's been a few weeks. No judgement — life gets busy. Members who come back for a second class are 2x more likely to stay with FlexHaus long-term. So we saved you a spot in Tuesday HIIT with Marta at 18:00. Same studio, same energy, zero pressure. <strong>[Button: Book My Comeback Class]</strong></p>
-    <p style="font-size:0.85rem;opacity:0.6">[Unsubscribe link]</p>
-  </blockquote>
-
-  <h3>Touch 3 — SMS (Day 7)</h3>
-  <blockquote>
-    <p>FlexHaus: [Name], Marta's Tuesday HIIT is still open for you. One tap and you're in. We'll save the spot. [link]</p>
-    <p style="font-size:0.85rem;opacity:0.6">This is your last nudge — after this, the spot opens up. Reply STOP to opt out.</p>
-  </blockquote>
-
-  <!-- THE CATCH -->
-  <h2 style="color:var(--ember)">🐙 The Catch: Octopus caught lying</h2>
-  <div class="catch">
-    <h3>Bug: Missing <code>async</code> on <code>initScene()</code></h3>
-    <p><strong>Who:</strong> Blue (Kojo), the three.js engineer.</p>
-    <p><strong>What:</strong> <code>initScene()</code> was declared as a regular <code>function</code> but contained <code>await</code> expressions (<code>await import('three')</code>). In JavaScript, <code>await</code> is only valid inside <code>async function</code>. The page would throw a <code>SyntaxError</code> at runtime, breaking the entire three.js experience with a blank canvas.</p>
-    <p><strong>Fix:</strong> Changed <code>function initScene()</code> → <code>async function initScene()</code> (applied during cold verify).</p>
-    <p><strong>Why this matters:</strong> The no-WebGL fallback checks <code>navigator...</code> which returns <code>false</code> (WebGL is available) — so the fallback never fires. The page shows a blank canvas. The cold verifier caught what the dev missed.</p>
-  </div>
-
-  <!-- COLD VERIFY SCORES -->
-  <h2>Cold Verify results</h2>
-  <table>
-    <tr><th>Criterion</th><th>Result</th></tr>
-    <tr><td>1. Diagnosis is data-bound</td><td style="color:var(--volt)"><strong>PASS</strong></td></tr>
-    <tr><td>2. One metric, not five</td><td style="color:var(--volt)"><strong>PASS</strong></td></tr>
-    <tr><td>3. Page runs on a phone</td><td style="color:var(--volt)"><strong>CONDITIONAL PASS</strong></td></tr>
-    <tr><td>4. On-brand, on-voice</td><td style="color:var(--volt)"><strong>PASS</strong></td></tr>
-    <tr><td>5. GDPR-clean and kind</td><td style="color:var(--volt)"><strong>PASS</strong></td></tr>
-    <tr><td>6. No hallucinated facts</td><td style="color:var(--volt)"><strong>PASS</strong></td></tr>
-  </table>
-
-  <!-- BUDGET -->
-  <h2>Budget breakdown</h2>
-  <table>
-    <tr><th>Item</th><th>Cost</th></tr>
-    <tr><td>SMS (185 members × 2 messages × €0.04)</td><td>~€15</td></tr>
-    <tr><td>Formspree (free tier)</td><td>€0</td></tr>
-    <tr><td>GitHub Pages hosting</td><td>€0</td></tr>
-    <tr><td>Domain (if any)</td><td>~€12/yr</td></tr>
-    <tr><td>Total</td><td><strong>~€27</strong> of €2,000 budget</td></tr>
-  </table>
-
-  <!-- VOICE OF MEMBER -->
-  <h2>Voice of the member</h2>
-  <blockquote>
-    <p>"If someone had just texted me 'we saved you a spot Tuesday', I'd have gone."</p>
-    <cite>— F, 38, at-risk member (survey)</cite>
-  </blockquote>
-  <blockquote>
-    <p>"I still pay for it. I just... haven't been in like six weeks. I keep meaning to."</p>
-    <cite>— F, 29, Standard plan (survey)</cite>
-  </blockquote>
-  <blockquote>
-    <p>"The first class was hard and I felt out of place. I never went back."</p>
-    <cite>— M, 34, cancelled (survey)</cite>
-  </blockquote>
-
-  <p style="text-align:center;margin-top:3rem">
-    <a href="site/index.html" class="btn" target="_blank">View the Comeback Page</a>
-  </p>
+  <footer>
+    <p>FlexHaus Gym — Show up for yourself.</p>
+    <p style="margin-top:0.25rem">© 2026 FlexHaus. Built in Dublin.</p>
+  </footer>
 
 </div>
 
-<footer>
-  <p>FlexHaus Gym — Show up for yourself.</p>
-  <p>The Comeback Campaign • Built by the Octopus pipeline • Cold verify passed with one catch</p>
-</footer>
+<!-- ── THREE.JS via CDN ── -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+// ── Detect reduced motion & WebGL support ──────────────────
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const noWebGL = !(() => { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl') || c.getContext('webgl2')); } catch(e) { return false; } })();
+
+if (prefersReducedMotion || noWebGL) {
+  document.getElementById('scene-container').style.display = 'none';
+}
+
+if (!prefersReducedMotion && !noWebGL) {
+  initScene();
+}
+
+async function initScene() {
+  const THREE = await import('three');
+  const { EffectComposer } = await import('three/addons/postprocessing/EffectComposer.js');
+  const { RenderPass } = await import('three/addons/postprocessing/RenderPass.js');
+  const { UnrealBloomPass } = await import('three/addons/postprocessing/UnrealBloomPass.js');
+
+  // ── Setup ────────────────────────────────────────────────
+  const container = document.getElementById('scene-container');
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+
+  const camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);
+  camera.position.set(0, 0, 12);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(w, h);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.2;
+  container.appendChild(renderer.domElement);
+
+  // ── Scene ────────────────────────────────────────────────
+  const scene = new THREE.Scene();
+  scene.background = null;
+
+  // ── Heartbeat line ───────────────────────────────────────
+  const pulsePoints = 180;
+  const pulseGeo = new THREE.BufferGeometry();
+  const pulsePos = new Float32Array(pulsePoints * 3);
+  for (let i = 0; i < pulsePoints; i++) {
+    const t = (i / (pulsePoints - 1)) * 4 * Math.PI;
+    const x = (i / (pulsePoints - 1)) * 8 - 4;
+    const y = Math.sin(t) * 0.6;
+    // ECG-like sharp spike
+    const spike = (t > 2.8 && t < 3.2) ? 1.8 : 0;
+    pulsePos[i*3] = x;
+    pulsePos[i*3+1] = y + spike;
+    pulsePos[i*3+2] = 0;
+  }
+  pulseGeo.setAttribute('position', new THREE.BufferAttribute(pulsePos, 3));
+  const pulseMat = new THREE.LineBasicMaterial({
+    color: 0xC6F24E,
+    linewidth: 2,
+    transparent: true,
+    opacity: 0.8
+  });
+  const pulseLine = new THREE.Line(pulseGeo, pulseMat);
+  pulseLine.position.set(0, 0, 0);
+  scene.add(pulseLine);
+
+  // ── Particles (chalk dust) ───────────────────────────────
+  const particleCount = 3000;
+  const partGeo = new THREE.BufferGeometry();
+  const partPos = new Float32Array(particleCount * 3);
+  const partSizes = new Float32Array(particleCount);
+  for (let i = 0; i < particleCount; i++) {
+    partPos[i*3] = (Math.random() - 0.5) * 20;
+    partPos[i*3+1] = (Math.random() - 0.5) * 12;
+    partPos[i*3+2] = (Math.random() - 0.5) * 15 - 3;
+    partSizes[i] = Math.random() * 4 + 1;
+  }
+  partGeo.setAttribute('position', new THREE.BufferAttribute(partPos, 3));
+  partGeo.setAttribute('size', new THREE.BufferAttribute(partSizes, 1));
+
+  const partMat = new THREE.PointsMaterial({
+    color: 0xF5F5F2,
+    size: 0.04,
+    transparent: true,
+    opacity: 0.4,
+    sizeAttenuation: true,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+  });
+  const particles = new THREE.Points(partGeo, partMat);
+  scene.add(particles);
+
+  // ── Gym structure (low-poly rig) ─────────────────────────
+  const gymGroup = new THREE.Group();
+  gymGroup.position.set(0, -0.5, -5);
+  gymGroup.visible = false;
+
+  // Floor
+  const floorGeo = new THREE.PlaneGeometry(12, 20);
+  const floorMat = new THREE.MeshStandardMaterial({
+    color: 0x1a1e24,
+    roughness: 0.8,
+    metalness: 0.1,
+    side: THREE.DoubleSide,
+  });
+  const floor = new THREE.Mesh(floorGeo, floorMat);
+  floor.rotation.x = -Math.PI / 2;
+  floor.position.y = -2;
+  gymGroup.add(floor);
+
+  // Rig uprights
+  const uprightMat = new THREE.MeshStandardMaterial({ color: 0x333944, roughness: 0.6, metalness: 0.4 });
+  for (let x = -3; x <= 3; x += 2) {
+    const upright = new THREE.Mesh(new THREE.BoxGeometry(0.12, 4, 0.12), uprightMat);
+    upright.position.set(x, 0, 0);
+    gymGroup.add(upright);
+    // crossbar
+    if (x < 3) {
+      const cross = new THREE.Mesh(new THREE.BoxGeometry(Math.abs(x - (x+2)) + 2, 0.06, 0.06), uprightMat);
+      cross.position.set(x + 1, 1.8, 0);
+      gymGroup.add(cross);
+    }
+  }
+
+  // Platform
+  const platMat = new THREE.MeshStandardMaterial({ color: 0x2a2f38, roughness: 0.7 });
+  const plat = new THREE.Mesh(new THREE.BoxGeometry(6.5, 0.08, 2.5), platMat);
+  plat.position.set(0, -1.96, 0);
+  gymGroup.add(plat);
+
+  scene.add(gymGroup);
+
+  // ── Lights ────────────────────────────────────────────────
+  const ambient = new THREE.AmbientLight(0x222233, 0.3);
+  scene.add(ambient);
+  const mainLight = new THREE.DirectionalLight(0xffeedd, 1.2);
+  mainLight.position.set(5, 8, 5);
+  scene.add(mainLight);
+  const fillLight = new THREE.DirectionalLight(0x4466ff, 0.3);
+  fillLight.position.set(-3, 2, -2);
+  scene.add(fillLight);
+  const voltLight = new THREE.PointLight(0xC6F24E, 0.6, 10);
+  voltLight.position.set(0, 1, 2);
+  scene.add(voltLight);
+
+  // ── Postprocessing ────────────────────────────────────────
+  const composer = new EffectComposer(renderer);
+  const renderPass = new RenderPass(scene, camera);
+  composer.addPass(renderPass);
+
+  const bloomPass = new UnrealBloomPass(
+    new THREE.Vector2(w, h),
+    0.3,  // strength
+    0.4,  // radius
+    0.1   // threshold
+  );
+  composer.addPass(bloomPass);
+
+  // ── Scroll tracking ──────────────────────────────────────
+  let scrollProgress = 0;
+
+  function updateScroll() {
+    const docEl = document.documentElement;
+    const scrollTop = window.scrollY;
+    const scrollHeight = docEl.scrollHeight - window.innerHeight;
+    scrollProgress = scrollHeight > 0 ? Math.min(Math.max(scrollTop / scrollHeight, 0), 1) : 0;
+  }
+  window.addEventListener('scroll', updateScroll, { passive: true });
+  updateScroll();
+
+  // ── Camera params ────────────────────────────────────────
+  const cameraPositions = [
+    { p: 0, pos: [0, 0, 12], target: [0, 0, 0] },         // hero
+    { p: 0.25, pos: [0, 0.3, 8], target: [0, -0.2, -2] },  // entering gym
+    { p: 0.5, pos: [0, 0.6, 5], target: [0, -0.3, -3] },   // inside gym
+    { p: 0.7, pos: [0, 0.2, 6], target: [0, -0.1, -1] },   // proof
+    { p: 0.85, pos: [0, -0.2, 7], target: [0, -1, 2] },    // above card
+    { p: 1, pos: [0, -0.5, 7], target: [0, -1.5, 3] },     // final
+  ];
+
+  function lerpV3(a, b, t) { return [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t, a[2]+(b[2]-a[2])*t]; }
+
+  function getCameraAtProgress(progress) {
+    let i = 0;
+    for (let j = 0; j < cameraPositions.length - 1; j++) {
+      if (progress >= cameraPositions[j].p && progress <= cameraPositions[j+1].p) { i = j; break; }
+    }
+    const a = cameraPositions[i];
+    const b = cameraPositions[Math.min(i+1, cameraPositions.length-1)];
+    const range = b.p - a.p;
+    const t = range > 0 ? (progress - a.p) / range : 0;
+    const pos = lerpV3(a.pos, b.pos, t);
+    const target = lerpV3(a.target, b.target, t);
+    return { pos, target };
+  }
+
+  // ── Proof cards intersection ──────────────────────────────
+  const proofCards = document.querySelectorAll('.proof-card');
+  const momentumLines = document.querySelectorAll('.momentum-line');
+  const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.3 });
+  proofCards.forEach(c => cardObserver.observe(c));
+  momentumLines.forEach(l => cardObserver.observe(l));
+
+  // ── Animation loop ────────────────────────────────────────
+  const clock = new THREE.Clock();
+
+  function animate() {
+    requestAnimationFrame(animate);
+    const elapsed = clock.getElapsedTime();
+    const { pos, target } = getCameraAtProgress(scrollProgress);
+
+    // Smooth camera
+    camera.position.x += (pos[0] - camera.position.x) * 0.04;
+    camera.position.y += (pos[1] - camera.position.y) * 0.04;
+    camera.position.z += (pos[2] - camera.position.z) * 0.04;
+    camera.lookAt(target[0], target[1], target[2]);
+
+    // Pulse speed driven by scroll
+    const pulseSpeed = 1.5 + scrollProgress * 5;
+    const pulsePhase = elapsed * pulseSpeed;
+    const positions = pulseLine.geometry.attributes.position.array;
+    for (let i = 0; i < pulsePoints; i++) {
+      const t = (i / (pulsePoints - 1)) * 4 * Math.PI;
+      const x = (i / (pulsePoints - 1)) * 8 - 4;
+      const beat = Math.sin(t + pulsePhase) * 0.6;
+      const spike = (t > 2.8 + Math.sin(pulsePhase)*0.2 && t < 3.2 + Math.sin(pulsePhase)*0.2) ? 1.8 : 0;
+      positions[i*3] = x;
+      positions[i*3+1] = beat + spike;
+    }
+    pulseLine.geometry.attributes.position.needsUpdate = true;
+
+    // Pulse opacity changes with scroll
+    pulseLine.material.opacity = 0.4 + scrollProgress * 0.6;
+
+    // Show gym at ~20% scroll
+    gymGroup.visible = scrollProgress > 0.15;
+
+    // Rotate particles slowly
+    particles.rotation.y = elapsed * 0.01;
+    particles.rotation.x = Math.sin(elapsed * 0.005) * 0.05;
+
+    // Bloom strength follows scroll
+    bloomPass.strength = 0.1 + scrollProgress * 0.5;
+
+    // Volt light intensity
+    voltLight.intensity = 0.4 + scrollProgress * 1.5;
+
+    composer.render();
+  }
+  animate();
+
+  // ── Resize ────────────────────────────────────────────────
+  window.addEventListener('resize', () => {
+    const w2 = window.innerWidth;
+    const h2 = window.innerHeight;
+    camera.aspect = w2 / h2;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w2, h2);
+    composer.setSize(w2, h2);
+  });
+}
+
+// ── Form handling ──────────────────────────────────────────────
+const form = document.getElementById('comeback-form');
+const successView = document.getElementById('booking-success');
+const formView = document.getElementById('booking-form-view');
+
+function validateField(id) {
+  const input = document.getElementById(id);
+  const error = document.getElementById(id + '-error');
+  if (!input) return true;
+  if (input.type === 'email') {
+    const valid = input.value.includes('@') && input.value.includes('.');
+    input.classList.toggle('error', !valid);
+    error.classList.toggle('show', !valid);
+    return valid;
+  }
+  if (input.hasAttribute('required')) {
+    const valid = input.value.trim().length > 0;
+    input.classList.toggle('error', !valid);
+    error.classList.toggle('show', !valid);
+    return valid;
+  }
+  return true;
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const nameValid = validateField('name');
+  const emailValid = validateField('email');
+  if (!nameValid || !emailValid) return;
+
+  const btn = form.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  btn.textContent = 'Booking...';
+
+  // Try Formspree (replace with actual form ID when deploying)
+  const data = new FormData(form);
+  try {
+    const resp = await fetch('https://formspree.io/f/xqapwkrq', {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+    if (!resp.ok) throw new Error('Formspree error');
+  } catch (err) {
+    console.warn('Formspree unavailable, showing success as mailto fallback:', err);
+    // mailto fallback
+    const params = new URLSearchParams();
+    params.set('subject', 'FlexHaus Comeback Booking');
+    params.set('body', `Name: ${data.get('name')}\nEmail: ${data.get('email')}\nPhone: ${data.get('phone') || 'N/A'}\nClass: ${data.get('class_type')}\nTime: ${data.get('time_slot')}\nReminder: ${data.get('reminder') || 'No'}`);
+    window.location.href = `mailto:hello@flexhausgym.com?${params.toString()}`;
+  }
+
+  // Success state
+  formView.style.display = 'none';
+  successView.classList.add('show');
+  btn.disabled = false;
+  btn.textContent = 'Book My Comeback Class';
+});
+
+window.resetForm = function() {
+  form.reset();
+  formView.style.display = 'block';
+  successView.classList.remove('show');
+  document.querySelectorAll('.error').forEach(e => e.classList.remove('error'));
+  document.querySelectorAll('.error-msg.show').forEach(e => e.classList.remove('show'));
+};
+</script>
+
+<!-- ── No-JS fallback ────────────────────────────────────────── -->
+<noscript>
+  <style>
+    #scene-container,.content-wrapper{display:none}
+    .no-js-content{display:block;padding:3rem 1.5rem;text-align:center;max-width:600px;margin:0 auto}
+    .no-js-content h1{font-size:2.5rem;margin-bottom:1rem}
+    .no-js-content p{margin-bottom:1rem;line-height:1.6}
+  </style>
+  <div class="no-js-content">
+    <h1>Your spot's still here.</h1>
+    <p>Come back to FlexHaus. We saved you a spot.</p>
+    <p>Please enable JavaScript to book your comeback class or email us at <a href="mailto:hello@flexhausgym.com">hello@flexhausgym.com</a></p>
+  </div>
+</noscript>
 
 </body>
 </html>
